@@ -6,6 +6,7 @@ from login import serializers
 # it helps to authenticate the correct Method
 from rest_framework.authentication import TokenAuthentication
 from login import permissions
+from rest_framework import filters
 class HelloApiView(APIView):
     """Test API View"""
     serializer_class = serializers.HelloSerializer
@@ -101,3 +102,6 @@ class USerProfileViewSet(viewsets.ModelViewSet):
     authentication_classes = (TokenAuthentication,)
     #it helps to pass the permission to the authenticated user
     permission_classes= (permissions.UpdateOwnProfile,)
+    #filters the values
+    filter_backends =(filters.SearchFilter,)
+    search_fields =('name','email')
