@@ -2,7 +2,8 @@ from django.db import models
 from django.contrib.auth.models import AbstractBaseUser,PermissionsMixin
  # baseuser manager
 from django.contrib.auth.models import BaseUserManager
-
+# this helps to retriev the informatrion from settings.py
+from django.conf import settings
 class UserProfileManager(BaseUserManager):
     '''Manager for User Profiles'''
     #creates the user as such the user created by django admin by default
@@ -65,4 +66,16 @@ class UserProfile(AbstractBaseUser,PermissionsMixin):
 
 
 
-    
+class ProfileFeedItem(models.Model):
+    """Profile status update"""
+    user_profile = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE
+    )
+    status_text = models.CharField(max_length=255)
+    created_on = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        """Return the model as a string"""
+        return self.status_text
+
