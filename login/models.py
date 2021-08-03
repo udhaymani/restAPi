@@ -6,7 +6,7 @@ from django.contrib.auth.models import BaseUserManager
 class UserProfileManager(BaseUserManager):
     '''Manager for User Profiles'''
     #creates the user as such the user created by django admin by default
-    def create_user(self,email,name,passwd=None):
+    def create_user(self,email,name,password=None):
         
         if not email:
             raise ValueError('users must have Email address')
@@ -16,7 +16,7 @@ class UserProfileManager(BaseUserManager):
         
         # the reason behind setting password is that the password will never saved as plain text once the user enters the password into the login page
 
-        user.set_password(passwd)
+        user.set_password(password)
         #inorder to support multiple databases we need to specify this self._db
         user.save(using=self._db)
 
