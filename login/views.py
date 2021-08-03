@@ -7,6 +7,14 @@ from login import serializers
 from rest_framework.authentication import TokenAuthentication
 from login import permissions
 from rest_framework import filters
+
+#to generate the auth token for creating the login APIVIewset
+
+from rest_framework.authtoken.views import ObtainAuthToken
+from rest_framework.settings import api_settings
+
+
+
 class HelloApiView(APIView):
     """Test API View"""
     serializer_class = serializers.HelloSerializer
@@ -95,7 +103,7 @@ class HelloViewSet(viewsets.ViewSet):
         return Response({'http_method':'DELETE'})
 
 #to manage the models inside the views
-class USerProfileViewSet(viewsets.ModelViewSet):
+class UserProfileViewSet(viewsets.ModelViewSet):
     '''handle creating & updating the profiles'''
     serializer_class = serializers.UserProfileSerializer
     queryset = models.UserProfile.objects.all()
@@ -105,3 +113,7 @@ class USerProfileViewSet(viewsets.ModelViewSet):
     #filters the values
     filter_backends =(filters.SearchFilter,)
     search_fields =('name','email')
+
+class UserLoginApiView(ObtainAuthToken):
+    '''Handle creating user authentication token'''
+    renderer_classes = api_settings.DEFAULT_RENDERER_CLASSES
